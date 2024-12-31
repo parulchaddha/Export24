@@ -448,136 +448,166 @@ h6 {
   }
 }
 
+/*-------------------------------------------------------------
+# FAQ section
+-------------------------------------------------------------*/
+.faq-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.faq-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.faq-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.faq-question:hover {
+  color: #007bff;
+}
+
+.faq-answer {
+  display: none;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+
+.faq-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 600px) {
+  .faq-title {
+    font-size: 1.5rem;
+  }
+
+  .faq-question {
+    font-size: 0.9rem;
+  }
+
+  .faq-answer {
+    font-size: 0.8rem;
+  }
+}
+
 /*--------------------------------------------------------------
 # Global Footer
 --------------------------------------------------------------*/
+/* Footer base styles */
 .footer {
-  color: var(--default-color);
-  background-color: var(--background-color);
-  background: url("../img/footer-bg.jpg") top center no-repeat;
-  background-size: cover;
+  background-color: #000; /* Black background */
+  color: #fff; /* White text color */
+  padding: 50px 40px; /* Add horizontal padding to create side space */
   font-size: 14px;
-  position: relative;
 }
 
-.footer .container {
-  position: relative;
+/* Social icons styling */
+.footer-icons {
+  margin-bottom: 40px; /* Increased space between social icons and footer bottom */
 }
 
-.footer:before {
-  content: "";
-  background: color-mix(in srgb, var(--background-color), transparent 20%);
-  position: absolute;
-  inset: 0;
+.social-links {
+  display: flex; /* Flexbox layout ensures horizontal row alignment */
+  justify-content: center; /* Center the social icons */
+  gap: 20px; /* Space between each icon */
 }
 
-.footer .footer-top {
-  padding-top: 50px;
-}
-
-.footer .footer-about .logo {
-  line-height: 1;
-  margin-bottom: 25px;
-}
-
-.footer .footer-about .logo img {
-  max-height: 40px;
-  margin-right: 6px;
-}
-
-.footer .footer-about .logo span {
-  color: var(--heading-color);
-  font-family: var(--heading-font);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.footer .footer-about p {
-  font-size: 14px;
-  font-family: var(--heading-font);
-}
-
-.footer .social-links a {
-  display: flex;
+.social-icon {
+  display: inline-flex; /* Keeps icons centered */
+  width: 50px;
+  height: 50px;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 50%);
-  font-size: 16px;
-  color: color-mix(in srgb, var(--default-color), transparent 20%);
-  margin-right: 10px;
-  transition: 0.3s;
+  border-radius: 50%;
+  background-color: #444;
+  color: #fff;
+  font-size: 20px;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
-.footer .social-links a:hover {
-  color: var(--accent-color);
-  border-color: var(--accent-color);
+.social-icon:hover {
+  background-color: #f60; /* Hover color for icons */
+  transform: scale(1.1); /* Slight zoom effect */
 }
 
-.footer h4 {
-  font-size: 16px;
-  font-weight: bold;
-  position: relative;
-  padding-bottom: 12px;
+/* Footer bottom styling */
+.footer-bottom {
+  display: flex; /* Flex layout */
+  justify-content: space-around; /* Keep some space between left/right elements */
+  align-items: center; /* Align vertically */
+  gap: 15px; /* Space between items for wrapping */
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
-.footer .footer-links {
-  margin-bottom: 30px;
+.footer-menu {
+  display: flex;
+  gap: 15px; /* Space between footer links */
 }
 
-.footer .footer-links ul {
-  list-style: none;
-  padding: 0;
+.footer-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.footer-menu a:hover {
+  color: #f60; /* Hover effect for footer links */
+}
+
+/* Copyright alignment */
+.copyright {
+  font-size: 14px;
+  text-align: left; /* Ensure text aligns naturally to the left */
   margin: 0;
 }
 
-.footer .footer-links ul i {
-  padding-right: 2px;
-  font-size: 12px;
-  line-height: 0;
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .footer-bottom {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align elements */
+    gap: 10px; /* Slightly reduce gaps */
+  }
+
+  .copyright {
+    text-align: center; /* Center align copyright text */
+  }
+
+  .footer-menu {
+    justify-content: center; /* Center menu links */
+  }
 }
 
-.footer .footer-links ul li {
-  padding: 10px 0;
-  display: flex;
-  align-items: center;
-}
-
-.footer .footer-links ul li:first-child {
-  padding-top: 0;
-}
-
-.footer .footer-links ul a {
-  color: color-mix(in srgb, var(--default-color), transparent 30%);
-  display: inline-block;
-  line-height: 1;
-}
-
-.footer .footer-links ul a:hover {
-  color: var(--accent-color);
-}
-
-.footer .footer-contact p {
-  margin-bottom: 5px;
-}
-
-.footer .copyright {
-  padding-top: 25px;
-  padding-bottom: 25px;
-  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-}
-
-.footer .copyright p {
-  margin-bottom: 0;
-}
-
-.footer .credits {
-  margin-top: 8px;
-  font-size: 13px;
-}
 
 /*--------------------------------------------------------------
 # Preloader
@@ -2671,7 +2701,7 @@ section,
 /*--------------------------------------------------------------
 # Contact Section
 --------------------------------------------------------------*/
-.contact .info-item {
+/* .contact .info-item {
   background-color: var(--surface-color);
   padding: 20px 0 30px 0;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
@@ -2753,15 +2783,139 @@ section,
 
 .contact .php-email-form button[type=submit]:hover {
   background: color-mix(in srgb, var(--accent-color), transparent 20%);
+} */
+
+.contact {
+  padding: 20px 0;
 }
 
-/*--------------------------------------------------------------
-# Starter Section Section
---------------------------------------------------------------*/
-.starter-section {
-  /* Add your styles here */
+.contact .section-title {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
+.contact .section-title h2 {
+  color: #333;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.php-email-form {
+  width: 100%;
+  max-width: 800px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Container for form elements */
+.input-row {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px; /* Control the width of input boxes */
+}
+
+/* For name and email fields */
+.input-group {
+  flex: 1;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 20px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 14px;
+  color: #333;
+}
+
+textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+/* Button container */
+.text-center {
+  width: 100%;
+  max-width: 600px; /* Match input boxes width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button[type=submit] {
+  background: var(--accent-color);
+  color: #060606;
+  padding: 12px 40px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  width: auto;
+}
+
+button[type=submit]:hover {
+  opacity: 0.9;
+}
+
+/* Message states */
+.loading, .error-message, .sent-message {
+  display: none;
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.loading {
+  background: #f3f3f3;
+}
+
+.error-message {
+  color: #dc3545;
+  background: #f8d7da;
+  border: 1px solid #f5c2c7;
+}
+
+.sent-message {
+  color: #198754;
+  background: #d1e7dd;
+  border: 1px solid #badbcc;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .input-row {
+      flex-direction: column;
+      gap: 15px;
+      padding: 0 15px;
+      max-width: 100%;
+  }
+  
+  .text-center {
+      padding: 0 15px;
+      max-width: 100%;
+  }
+  
+  .php-email-form {
+      padding: 15px;
+  }
+}
 /*--------------------------------------------------------------
 # Widgets
 --------------------------------------------------------------*/
