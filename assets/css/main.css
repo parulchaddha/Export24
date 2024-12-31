@@ -1920,70 +1920,57 @@ section,
 /*--------------------------------------------------------------
 # Service Details Section
 --------------------------------------------------------------*/
-.service-details .services-list {
-  background-color: var(--surface-color);
-  padding: 10px 30px;
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-  margin-bottom: 20px;
+/* Only targeting the product categories section */
+#categories-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
+  gap: 1.5rem;
+  padding: 0 1rem;
 }
 
-.service-details .services-list a {
-  display: block;
-  line-height: 1;
-  padding: 8px 0 8px 15px;
-  border-left: 3px solid color-mix(in srgb, var(--default-color), transparent 70%);
-  margin: 20px 0;
-  color: color-mix(in srgb, var(--default-color), transparent 20%);
-  transition: 0.3s;
+#categories-container .card {
+  height: 100%;
+  border: none;
+  background: transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+  transition: box-shadow 0.3s ease;
 }
 
-.service-details .services-list a.active {
-  color: var(--heading-color);
-  font-weight: 700;
-  border-color: var(--accent-color);
+#categories-container .card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  /* Slightly stronger shadow on hover */
 }
 
-.service-details .services-list a:hover {
-  border-color: var(--accent-color);
+#categories-container .card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
-.service-details .services-img {
-  margin-bottom: 20px;
+#categories-container .card-body {
+  padding: 1rem 0;
+}
+.card-button{
+  background-color: var(--accent-color);
+}
+/* Responsive breakpoints only for product grid */
+@media (max-width: 1200px) {
+  #categories-container {
+      grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+  }
 }
 
-.service-details h3 {
-  font-size: 26px;
-  font-weight: 700;
+@media (max-width: 768px) {
+  #categories-container {
+      grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+  }
 }
 
-.service-details h4 {
-  font-size: 20px;
-  font-weight: 700;
+@media (max-width: 576px) {
+  #categories-container {
+      grid-template-columns: repeat(1, 1fr); /* 1 card per row */
+  }
 }
-
-.service-details p {
-  font-size: 15px;
-}
-
-.service-details ul {
-  list-style: none;
-  padding: 0;
-  font-size: 15px;
-}
-
-.service-details ul li {
-  padding: 5px 0;
-  display: flex;
-  align-items: center;
-}
-
-.service-details ul i {
-  font-size: 20px;
-  margin-right: 8px;
-  color: var(--accent-color);
-}
-
-
 
 
 /*--------------------------------------------------------------
