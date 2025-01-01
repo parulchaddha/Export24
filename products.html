@@ -36,15 +36,96 @@
         <section class="services section light-background">
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
-                <h1 id="category-title" >Products</h1>
+                <h1 id="category-title">Products</h1>
             </div>
-          
+
             <div class="container">
                 <div id="products-container" class="row g-4">
                     <!-- Products will be loaded here -->
                 </div>
             </div>
-          </section>
+        </section>
+        <div id="orderFormNotification" class="order-form-notification"></div>
+
+        <!-- Modal Order Form -->
+        <div id="orderModal" class="order-form-modal">
+            <div class="order-form-modal-content">
+                <span class="order-form-close-btn" onclick="closeOrderForm()">&times;</span>
+                <h2 class="order-form-heading">Order Form</h2>
+
+                <form id="orderForm" onsubmit="submitForm(event)">
+                    <!-- Previous form fields remain the same -->
+                    <!-- Row 1: First Name and Last Name -->
+                    <div class="order-form-row">
+                        <div class="order-form-group">
+                            <label class="order-form-label" for="firstName">First Name</label>
+                            <input class="order-form-input" type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="order-form-group">
+                            <label class="order-form-label" for="lastName">Last Name</label>
+                            <input class="order-form-input" type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Description -->
+                    <div class="order-form-row">
+                        <div class="order-form-group">
+                            <label class="order-form-label" for="description">Description</label>
+                            <textarea class="order-form-textarea" id="description" name="description"
+                                required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Country and Pincode -->
+                    <div class="order-form-row">
+                        <div class="order-form-group">
+                            <label class="order-form-label" for="country">Country</label>
+                            <input class="order-form-input" type="text" id="country" name="country" required>
+                        </div>
+                        <div class="order-form-group">
+                            <label class="order-form-label" for="pincode">Pincode</label>
+                            <input class="order-form-input" type="text" id="pincode" name="pincode" required>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Phone and Email -->
+                    <div class="order-form-row">
+                        <div class="order-form-group">
+                            <label class="order-form-label" for="phone">Phone Number</label>
+                            <input class="order-form-input" type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="order-form-group">
+                            <label class="order-form-label" for="email">Email</label>
+                            <input class="order-form-input" type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <!-- Row 5: Product Category and Quantity -->
+                    <div class="order-form-row">
+                        <div class="order-form-group">
+                            <label class="order-form-label" for="category">Product Category</label>
+                            <select class="order-form-select" id="category" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="Ethanol">Ethanol</option>
+                                <option value="Leather">Leather</option>
+                                <option value="Dry fruits">Dry Fruits</option>
+                                <option value="Cereals">Cereals</option>
+                            </select>
+                        </div>
+                        <div class="order-form-group">
+                            <label class="order-form-label" for="quantity">Quantity Needed</label>
+                            <input class="order-form-input" type="number" id="quantity" name="quantity" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="order-form-submit-btn">
+                        Submit Order
+                        <span id="submitSpinner" class="order-form-spinner" style="display: none;"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
     </main>
     <footer class="footer">
         <div class="footer-icons">
@@ -85,63 +166,107 @@
             return urlParams.get(name);
         }
         // Replace in your existing code
-async function loadProducts() {
-    try {
-        const categoryName = getUrlParameter('category');
-        document.getElementById('category-title').textContent = categoryName + ' Products';
+        async function loadProducts() {
+            try {
+                const categoryName = getUrlParameter('category');
+                document.getElementById('category-title').textContent = categoryName + ' Products';
 
-        const response = await fetch(PRODUCTS_SHEET_URL);
-        const text = await response.text();
-        const data = JSON.parse(text.substr(47).slice(0, -2));
-        const rows = data.table.rows;
+                const response = await fetch(PRODUCTS_SHEET_URL);
+                const text = await response.text();
+                const data = JSON.parse(text.substr(47).slice(0, -2));
+                const rows = data.table.rows;
 
-        const container = document.getElementById('products-container');
-        container.innerHTML = '';
+                const container = document.getElementById('products-container');
+                container.innerHTML = '';
 
-        rows.forEach(row => {
-            const productCategory = row.c[0].v;
-            if (productCategory === categoryName) {
-                const imageUrl = row.c[1].v;
-                const productName = row.c[2].v;
+                rows.forEach(row => {
+                    const productCategory = row.c[0].v;
+                    if (productCategory === categoryName) {
+                        const imageUrl = row.c[1].v;
+                        const productName = row.c[2].v;
 
-                const card = `
+                        const card = `
                     <div class="card">
                             <img src="${imageUrl}" class="card-img-top" alt="${productName}">
                             <div class="card-body">
                                 <h5 class="card-title">${productName}</h5>
-                                <button class="btn card-button" onclick="openOrderForm('${productName}')">Place Order</button>
+                                <button class="btn card-button" onclick="openOrderForm()">Place Order</button>
                             </div>
                     </div>
                 `;
-                container.innerHTML += card;
-            }
-        });
+                        container.innerHTML += card;
+                    }
+                });
 
-        if (container.innerHTML === '') {
-            container.innerHTML = `
+                if (container.innerHTML === '') {
+                    container.innerHTML = `
                 <div class="col-12 text-center">
                     <p>No products found in this category.</p>
                 </div>
             `;
+                }
+
+                // Hide preloader after content loads
+                document.getElementById('preloader').style.display = 'none';
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('preloader').style.display = 'none';
+            }
+        }
+        function showNotification(message, type) {
+            const notification = document.getElementById('orderFormNotification');
+            notification.textContent = message;
+            notification.className = `order-form-notification ${type}`;
+            notification.style.display = 'block';
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
         }
 
-        // Hide preloader after content loads
-        document.getElementById('preloader').style.display = 'none';
+        function openOrderForm() {
+            document.getElementById('orderModal').style.display = 'block';
+        }
+
+        function closeOrderForm() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('orderModal')) {
+                closeOrderForm();
+            }
+        }
+
+document.getElementById("orderForm").addEventListener("submit", async function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    // Collect form data
+    const formData = new FormData(e.target);
+
+    // Send data to Google Apps Script Web App
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzHAEjsdAK2GbN-E8pdLSZc9PVz_a-Vw4m8z7b8Aep7P8UoHxJIJDws9eWfBRstus7QpQ/exec"; // Replace with your actual Apps Script Web App URL
+    try {
+      const response = await fetch(scriptURL, {
+        method: "POST",
+        body: new URLSearchParams(formData),
+      });
+
+      if (response.ok) {
+        alert("Order submitted successfully!");
+        e.target.reset(); // Clear the form
+      } else {
+        alert("Error submitting order. Please try again.");
+      }
     } catch (error) {
-        console.error('Error loading products:', error);
-        document.getElementById('preloader').style.display = 'none';
+      console.error("Error:", error);
+      alert("There was an error submitting your order.");
     }
-}
-
-function openOrderForm(productName) {
-    // Add your order form logic here
-    alert(`Order form for ${productName}`);
-    // You can replace this with modal or redirect to order form page
-}
-
-// Add preloader show on page load
-document.getElementById('preloader').style.display = 'block';
-window.onload = loadProducts;
+  });
+        // Add preloader show on page load
+        document.getElementById('preloader').style.display = 'block';
+        window.onload = loadProducts;
     </script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
