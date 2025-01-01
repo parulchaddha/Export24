@@ -155,7 +155,7 @@ main {
 #category-title::after {
     content: '';
     display: inline-block;
-    width: 20vw;
+    width: 6vw;
     height: 2px;
     background-color: #ffc107; /* Yellow color */
     margin: 0 10px;
@@ -164,83 +164,68 @@ main {
 @media (max-width: 768px) {
     #category-title::before,
     #category-title::after {
-        width: 15vw;
+        width: 5vw;
     }
 }
 
 /* Product Cards */
+/*------------------------------------------------------------
+Product cards
+-----------------------------------------------------------*/
+
+
 #products-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 0; /* Eliminated extra white spaces */
-    padding: 0;
-}
-
-#products-container .col-md-4 {
-    flex: 0 0 calc(25% - 15px); /* Increased width for better coverage in a row */
-    max-width: calc(25% - 15px); /* Cards now take up more space */
-    margin-bottom: 15px;
-}
-
-@media (max-width: 992px) {
-    #products-container .col-md-4 {
-        flex: 0 0 calc(50% - 15px); /* Two cards per row on tablet screens */
-        max-width: calc(50% - 15px);
-    }
-}
-
-@media (max-width: 576px) {
-    #products-container .col-md-4 {
-        flex: 0 0 100%; /* One card per row on mobile view */
-        max-width: 100%;
-    }
-}
-
-.card {
-    width: 100%; /* Ensures card covers allocated space */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08); /* Added subtle shadow */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+  
+  #products-container .card {
+    height: 100%;
     border: none;
-    background-color: #fff;
-    overflow: hidden;
-    transition: box-shadow 0.1s ease-in-out;
-}
-
-.card-img-top {
+    background: transparent;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+    transition: box-shadow 0.3s ease;
+  }
+  
+  #products-container .card:hover {
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.2);  /* Slightly stronger shadow on hover */
+  }
+  
+  #products-container .card-img-top {
     width: 100%;
-    height: 250px; /* Adjusted card image height */
+    height: 200px;
     object-fit: cover;
-}
-
-.card-body {
-    padding: 15px;
-    text-align: center;
-}
-
-.card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin: 15px 0 10px;
-    color: #333;
-}
-
-/* Button Styling */
-.btn-primary {
-    background-color: #feb900 ;/* Accent color */
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 5px;
-    color: #fff;
-    transition: all 0.1s ease-in-out;
-}
-
-.btn-primary:hover {
-    background-color: transparent;
-    color: #000;
-    border: 0.5px solid #000;
-}
-
+    border-radius: 8px;
+  }
+  
+  #products-container .card-body {
+    padding: 1rem 0;
+  }
+  .card-button{
+    background-color: var(--accent-color);
+    padding:3px;
+  }
+  /* Responsive breakpoints only for product grid */
+  @media (max-width: 1200px) {
+    #products-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    #products-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    #products-container {
+        grid-template-columns: repeat(1, 1fr); /* 1 card per row */
+    }
+  }
+  
 
 
 

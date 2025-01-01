@@ -380,26 +380,33 @@
     });
   </script>
   <script>
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      // Get form values
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const subject = document.getElementById('subject').value;
-      const message = document.getElementById('message').value;
-
-      // Recipient email - replace with your email address
-      const recipientEmail = 'parul.chaddha94@gmail.com';
-
-      // Format the message body with sender's details
-      const formattedMessage = `Message from: ${name}\nEmail: ${email}\n\n${message}`;
-
-      // Create mailto link with all parameters
-      const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formattedMessage)}`;
-
-      // Open default email client
-      window.location.href = mailtoLink;
+    document.getElementById("contactForm").addEventListener("submit", async function (e) {
+      e.preventDefault(); // Prevent default form submission
+  
+      // Collect form data
+      const formData = new FormData(e.target);
+  
+      // Convert form data to JSON
+      const data = {};
+      formData.forEach((value, key) => (data[key] = value));
+  
+      // Send data to Google Apps Script Web App
+      const scriptURL = "https://script.google.com/macros/s/AKfycbwpQP2xaQSweWI4jlcJi4UVgHPZvh8PpVdOgIA0kdjIalv2fRSD-wbLvARQ2NOwhxLXeQ/exec";
+      try {
+        const response = await fetch(scriptURL, {
+          method: "POST",
+          body: new URLSearchParams(data),
+        });
+  
+        if (response.ok) {
+          alert("Form submitted successfully!");
+          e.target.reset(); // Clear the form
+        } else {
+          alert("Error submitting form.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     });
   </script>
   <script>
@@ -441,6 +448,30 @@
     }
 
     window.onload = loadCategories;
+  </script>
+  <script>
+    const contactForm = document.getElementById('contactForm');
+const submitButton = contactForm.querySelector('button[type="submit"]');
+
+// Store the original button text
+const originalText = submitButton.textContent;
+
+// Function to handle form submission
+contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault(); // Prevent default form submission
+
+    // Change button text to "Sending"
+    submitButton.textContent = 'Sending';
+    
+    // After 500ms, change to "Sent ✅"
+    await new Promise(resolve => setTimeout(resolve, 500));
+    submitButton.textContent = 'Sent ✅';
+    
+    // After 1000ms more, change back to original text
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    submitButton.textContent = originalText;
+
+});
   </script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>

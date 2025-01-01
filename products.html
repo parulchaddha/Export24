@@ -32,14 +32,19 @@
             </a>
         </div>
     </nav>
-    <main>
-        <div class="container py-5">
-            <h1 id="category-title" class="mb-5">Products</h1>
-            <div id="products-container" class="row g-4">
-                <!-- Products will be loaded here -->
+    <main class="main">
+        <section class="services section light-background">
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h1 id="category-title" >Products</h1>
             </div>
-        </div>
-        
+          
+            <div class="container">
+                <div id="products-container" class="row g-4">
+                    <!-- Products will be loaded here -->
+                </div>
+            </div>
+          </section>
     </main>
     <footer class="footer">
         <div class="footer-icons">
@@ -100,14 +105,12 @@ async function loadProducts() {
                 const productName = row.c[2].v;
 
                 const card = `
-                    <div class="col-md-4">
-                        <div class="card h-100">
+                    <div class="card">
                             <img src="${imageUrl}" class="card-img-top" alt="${productName}">
                             <div class="card-body">
                                 <h5 class="card-title">${productName}</h5>
-                                <button class="btn btn-primary" onclick="openOrderForm('${productName}')">Place Order</button>
+                                <button class="btn card-button" onclick="openOrderForm('${productName}')">Place Order</button>
                             </div>
-                        </div>
                     </div>
                 `;
                 container.innerHTML += card;
