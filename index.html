@@ -419,15 +419,13 @@
         rows.forEach(row => {
           const imageUrl = row.c[0].v;
           const categoryName = row.c[1].v;
-          const price = row.c[2].v;
-          const description = row.c[3].v;
+          const description = row.c[2].v;
 
           const card = `
                       <div class="card">
                         <img src="${imageUrl}" class="card-img-top" alt="${categoryName}">
                         <div class="card-body">
                             <h5 class="card-title">${categoryName}</h5>
-                            <p class="card-price">${price}</p>
                             <p class="card-text">${description}</p>
                             <a href="products.html?category=${encodeURIComponent(categoryName)}" 
                               class="btn card-button">See More</a>

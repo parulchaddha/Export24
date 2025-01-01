@@ -1,0 +1,156 @@
+<!-- products.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.ico" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+
+    <link href="assets/css/products.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/img/export24.jpg" alt="Export24" height="40" style="border-radius:10%;">
+                <h1>Export24</h1><span>.</span>
+            </a>
+            <a href="index.html" class="back-link">
+                ← Back to Categories
+            </a>
+        </div>
+    </nav>
+    <main>
+        <div class="container py-5">
+            <h1 id="category-title" class="mb-5">Products</h1>
+            <div id="products-container" class="row g-4">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+        
+    </main>
+    <footer class="footer">
+        <div class="footer-icons">
+            <div class="social-links">
+                <a href="https://facebook.com" class="social-icon"><i class="bi bi-facebook"></i></a>
+                <a href="https://twitter.com" class="social-icon"><i class="bi bi-twitter"></i></a>
+                <a href="https://instagram.com" class="social-icon"><i class="bi bi-instagram"></i></a>
+                <a href="https://linkedin.com" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                <a href="https://twitch.com" class="social-icon"><i class="bi bi-twitch"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="copyright">
+                <p>© 2024 Export24. All rights reserved.</p>
+            </div>
+            <div class="footer-menu">
+                <a href="#contact">Contact Us</a>
+                <a href="#faq">FAQ</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+    <script>
+        // Replace with your Google Sheets ID for products
+        const PRODUCTS_SHEET_ID = '1SOs01hskMxkndEc5jblZQeUn6-uSb3CbgT3mKu52dkA';
+        const PRODUCTS_SHEET_URL = `https://docs.google.com/spreadsheets/d/${PRODUCTS_SHEET_ID}/gviz/tq?tqx=out:json`;
+
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        // Replace in your existing code
+async function loadProducts() {
+    try {
+        const categoryName = getUrlParameter('category');
+        document.getElementById('category-title').textContent = categoryName + ' Products';
+
+        const response = await fetch(PRODUCTS_SHEET_URL);
+        const text = await response.text();
+        const data = JSON.parse(text.substr(47).slice(0, -2));
+        const rows = data.table.rows;
+
+        const container = document.getElementById('products-container');
+        container.innerHTML = '';
+
+        rows.forEach(row => {
+            const productCategory = row.c[0].v;
+            if (productCategory === categoryName) {
+                const imageUrl = row.c[1].v;
+                const productName = row.c[2].v;
+
+                const card = `
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <img src="${imageUrl}" class="card-img-top" alt="${productName}">
+                            <div class="card-body">
+                                <h5 class="card-title">${productName}</h5>
+                                <button class="btn btn-primary" onclick="openOrderForm('${productName}')">Place Order</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            }
+        });
+
+        if (container.innerHTML === '') {
+            container.innerHTML = `
+                <div class="col-12 text-center">
+                    <p>No products found in this category.</p>
+                </div>
+            `;
+        }
+
+        // Hide preloader after content loads
+        document.getElementById('preloader').style.display = 'none';
+    } catch (error) {
+        console.error('Error loading products:', error);
+        document.getElementById('preloader').style.display = 'none';
+    }
+}
+
+function openOrderForm(productName) {
+    // Add your order form logic here
+    alert(`Order form for ${productName}`);
+    // You can replace this with modal or redirect to order form page
+}
+
+// Add preloader show on page load
+document.getElementById('preloader').style.display = 'block';
+window.onload = loadProducts;
+    </script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
