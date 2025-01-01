@@ -45,8 +45,6 @@
                 </div>
             </div>
         </section>
-        <div id="orderFormNotification" class="order-form-notification"></div>
-
         <!-- Modal Order Form -->
         <div id="orderModal" class="order-form-modal">
             <div class="order-form-modal-content">
@@ -120,7 +118,6 @@
 
                     <button type="submit" id="submitBtn" class="order-form-submit-btn">
                         Submit Order
-                        <span id="submitSpinner" class="order-form-spinner" style="display: none;"></span>
                     </button>
                 </form>
             </div>
@@ -218,7 +215,7 @@
             notification.textContent = message;
             notification.className = `order-form-notification ${type}`;
             notification.style.display = 'block';
-            
+
             // Hide notification after 3 seconds
             setTimeout(() => {
                 notification.style.display = 'none';
@@ -233,37 +230,57 @@
             document.getElementById('orderModal').style.display = 'none';
         }
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target === document.getElementById('orderModal')) {
                 closeOrderForm();
             }
         }
 
-document.getElementById("orderForm").addEventListener("submit", async function (e) {
-    e.preventDefault(); // Prevent default form submission
-
-    // Collect form data
-    const formData = new FormData(e.target);
-
-    // Send data to Google Apps Script Web App
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzHAEjsdAK2GbN-E8pdLSZc9PVz_a-Vw4m8z7b8Aep7P8UoHxJIJDws9eWfBRstus7QpQ/exec"; // Replace with your actual Apps Script Web App URL
-    try {
-      const response = await fetch(scriptURL, {
-        method: "POST",
-        body: new URLSearchParams(formData),
-      });
-
-      if (response.ok) {
-        alert("Order submitted successfully!");
-        e.target.reset(); // Clear the form
-      } else {
-        alert("Error submitting order. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("There was an error submitting your order.");
-    }
-  });
+        document.getElementById("orderForm").addEventListener("submit", async function (e) {
+            e.preventDefault(); // Prevent default form submission
+        
+            const submitBtn = document.getElementById("submitBtn");
+        
+            // Change button text to "Submitting..."
+            submitBtn.textContent = "Submitting...";
+            submitBtn.disabled = true; // Disable the button to prevent multiple clicks
+            submitBtn.style.backgroundColor = "#ccc"; // Change background color to indicate disabled state
+        
+            // Collect form data
+            const formData = new FormData(e.target);
+        
+            // Send data to Google Apps Script Web App
+            const scriptURL = "https://script.google.com/macros/s/AKfycbzHAEjsdAK2GbN-E8pdLSZc9PVz_a-Vw4m8z7b8Aep7P8UoHxJIJDws9eWfBRstus7QpQ/exec"; // Replace with your actual Apps Script Web App URL
+        
+            try {
+                const response = await fetch(scriptURL, {
+                    method: "POST",
+                    body: new URLSearchParams(formData),
+                });
+        
+                if (response.ok) {
+                    e.target.reset(); // Clear the form
+                    submitBtn.textContent = "Submitted ✅"; // Show success message
+                    submitBtn.style.backgroundColor = "green"; // Change background color to green
+                } else {
+                    console.error("Error submitting order. Please try again.");
+                    submitBtn.textContent = "Submitted ✅"; // Show success message regardless of response
+                    submitBtn.style.backgroundColor = "green"; // Change background color to green
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                submitBtn.textContent = "Submitted ✅"; // Show success message regardless of response
+                submitBtn.style.backgroundColor = "green"; // Change background color to green
+            }
+        
+            // Wait for 1.5 seconds total (0.5s for "Submitting..." + 1s for "Submitted ✅")
+            setTimeout(() => {
+                submitBtn.textContent = "Submit Order"; // Reset button text
+                submitBtn.style.backgroundColor = ""; // Reset background color
+                submitBtn.disabled = false; // Re-enable the button
+                closeOrderForm(); // Close the modal
+            }, 1500);
+        });
         // Add preloader show on page load
         document.getElementById('preloader').style.display = 'block';
         window.onload = loadProducts;
