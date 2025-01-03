@@ -1458,3 +1458,27 @@ Modal --------------------------------------------*/
 .modal-content p {
   line-height: 1.6;
 }
+
+/*------------------------Dropdown css-----------------------*/
+.dropdown-menu {
+  display: none;
+  list-style: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  display: block;
+  padding: 5px 10px;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f0f0f0;
+}

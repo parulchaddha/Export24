@@ -31,7 +31,10 @@
                 <ul>
                   <li><a href="index.html">Home</a></li>
                   <li><a href="#about.html">About</a></li>
-                  <li><a href="#services">Products</a></li>
+                  <li class="dropdown">
+                    <a href="#" id="productsDropdown" class="dropdown-toggle">Products</a>
+                    <ul id="dropdownMenu" class="dropdown-menu"></ul>
+                  </li>
                   <li><a href="#contact">Contact</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -321,6 +324,33 @@
             }
         });
     </script>
+    <script>
+        const CATEGORIES_SHEET_ID = '15qI8XaTqBfFgwT4ANxKSWZV1Q2tW8jWtRQOePsJjCOc';
+        const CATEGORIES_SHEET_URL = `https://docs.google.com/spreadsheets/d/${CATEGORIES_SHEET_ID}/gviz/tq?tqx=out:json`;
+      
+        async function loadDropdownCategories() {
+          try {
+            const response = await fetch(CATEGORIES_SHEET_URL);
+            const text = await response.text();
+            const data = JSON.parse(text.substr(47).slice(0, -2));
+            const rows = data.table.rows;
+      
+            const dropdownMenu = document.getElementById('dropdownMenu');
+      
+            rows.forEach(row => {
+              const categoryName = row.c[1].v;
+      
+              const listItem = document.createElement('li');
+              listItem.innerHTML = `<a href="products.html?category=${encodeURIComponent(categoryName)}">${categoryName}</a>`;
+              dropdownMenu.appendChild(listItem);
+            });
+          } catch (error) {
+            console.error('Error loading categories:', error);
+          }
+        }
+      
+        document.addEventListener('DOMContentLoaded', loadDropdownCategories);
+      </script>      
     <script>
         // Replace with your Google Sheets ID for products
         const PRODUCTS_SHEET_ID = '1SOs01hskMxkndEc5jblZQeUn6-uSb3CbgT3mKu52dkA';
